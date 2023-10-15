@@ -1,10 +1,16 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import styles from '../css/Filter.module.css';
 
 export class Filter extends Component {
   render() {
     const { filter } = this.props;
-    return <input type="text" onChange={filter} />;
+    return (
+      <>
+        <h4 className={styles.filterHeader}>Find contacts by name:</h4>
+        <input className={styles.filterInput} type="text" onChange={filter} />
+      </>
+    );
   }
 }
 

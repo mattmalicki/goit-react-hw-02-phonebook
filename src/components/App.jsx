@@ -3,6 +3,7 @@ import { ContactForm } from './ContactForm';
 import { ContactList } from './ContactList';
 import { Filter } from './Filter';
 import { nanoid } from 'nanoid';
+import styles from '../css/App.module.css';
 
 export class App extends Component {
   state = {
@@ -20,7 +21,11 @@ export class App extends Component {
     const name = form.name.value;
     const number = form.number.value;
     const contacts = this.state.contacts;
-    if (contacts.map(contact => contact.name.includes(name))) {
+    let isInPhonebook = false;
+    contacts.map(contact =>
+      contact.name === name ? (isInPhonebook = true) : null
+    );
+    if (isInPhonebook) {
       alert(name + ' is already in contacts');
       return;
     }
@@ -58,13 +63,15 @@ export class App extends Component {
       obj.name.includes(this.state.filter)
     );
     return (
-      <>
-        <h2>Phonebook</h2>
+      <div className={styles.appContainer}>
+        <h2 className={styles.appHeader}>Phonebook</h2>
         <ContactForm handleSubmit={this.handleSubmit} />
-        <h2>Contacts</h2>
-        <Filter filter={this.filter} />
+        <h2 className={styles.appHeader}>Contacts</h2>
+        {this.state.contacts.length > 0 ? (
+          <Filter filter={this.filter} />
+        ) : null}
         <ContactList contacts={filtered} remove={this.deleteContact} />
-      </>
+      </div>
     );
   }
 }
